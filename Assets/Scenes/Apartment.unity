@@ -2299,7 +2299,7 @@ GameObject:
   - component: {fileID: 518722023}
   m_Layer: 10
   m_Name: Mug2
-  m_TagString: Untagged
+  m_TagString: Mug
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -3646,7 +3646,7 @@ GameObject:
   - component: {fileID: 947976601}
   m_Layer: 10
   m_Name: Mug3
-  m_TagString: Untagged
+  m_TagString: Mug
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -4723,7 +4723,7 @@ GameObject:
   - component: {fileID: 1268591016}
   m_Layer: 10
   m_Name: Mug1
-  m_TagString: Untagged
+  m_TagString: Mug
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
