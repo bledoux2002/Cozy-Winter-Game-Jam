@@ -9,7 +9,7 @@ public class PlayerController : MonoBehaviour
     
     public Rigidbody2D rb;
 
-    Vector2 movement;
+    Vector3 movement;
 
     Vector2 direction;
 
@@ -29,9 +29,9 @@ public class PlayerController : MonoBehaviour
         float inputMagnitude = Mathf.Clamp01(direction.magnitude);
         direction.Normalize();
 
-        if (Input.GetKeyDown(KeyCode.Space))
-        {
-            Debug.DrawRay(transform.position, transform.TransformDirection(Vector3.up) * 10f, Color.red);
+        //if (Input.GetKeyDown(KeyCode.Space))
+        //{
+            Debug.DrawRay(transform.position, transform.TransformDirection(Vector3.up) * 1f, Color.red, 10);
             RaycastHit2D hit = Physics2D.Raycast(transform.position, transform.TransformDirection(Vector3.up), 1f, 10);
             if (hit)
             {
@@ -41,13 +41,13 @@ public class PlayerController : MonoBehaviour
             {
                 Debug.Log("No item in range");
             }
-        }
+        //}
     }
 
     void FixedUpdate()
     {
         //Movement
-        rb.MovePosition(rb.position + movement * moveSpeed * Time.fixedDeltaTime);
+        transform.position = transform.position + movement * moveSpeed * Time.fixedDeltaTime;
         if (direction != Vector2.zero)
         {
             Quaternion toRotation = Quaternion.LookRotation(Vector3.forward, direction);
