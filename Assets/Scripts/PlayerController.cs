@@ -8,8 +8,6 @@ public class PlayerController : MonoBehaviour
     public float rotateSpeed = 500f;
     
     [SerializeField]
-    private LayerMask _grabLayer;
-    [SerializeField]
     private LayerMask _snapLayer;
 
     Vector3 movement;
@@ -39,12 +37,14 @@ public class PlayerController : MonoBehaviour
             RaycastHit2D hit = Physics2D.Raycast(transform.position, transform.TransformDirection(Vector3.up), 1f, _snapLayer);
             if (hit)
             {
+                GameObject snapItem = hit.collider.gameObject.GetComponent<SnapPoint>().item;
                 if (_item == null)
                 {
-                    if (hit.collider.gameObject.GetComponent<SnapPoint>().item != null)
+                    if (snapItem != null)
                     {
-                        _item = hit.collider.gameObject.GetComponent<SnapPoint>().item;
+                        _item = snapItem;
                         hit.collider.gameObject.GetComponent<SnapPoint>().item = null;
+                        snapItem = null;
                         Debug.Log("Grabbed " + _item.name);
                     }
                     else
@@ -54,9 +54,10 @@ public class PlayerController : MonoBehaviour
                 }
                 else
                 {
-                    if (hit.collider.gameObject.GetComponent<SnapPoint>().item == null)
+                    if (snapItem == null)
                     {
                         hit.collider.gameObject.GetComponent<SnapPoint>().item = _item;
+                        snapItem = _item;
                         _item.transform.position = hit.transform.position;
                         Debug.Log("Placed " + _item.name);
                         _item = null;
@@ -64,6 +65,10 @@ public class PlayerController : MonoBehaviour
                     else
                     {
                         Debug.Log("Something is already placed there.");
+                        if (snapItem.CompareTag("Mug"))
+                        {
+                            snapItem.GetComponent<Mug>().addIngredient(_item);
+                        }
                     }
                 }
             }

@@ -4,15 +4,19 @@ using UnityEngine;
 
 public class Mug : MonoBehaviour
 {
-    // Start is called before the first frame update
-    void Start()
-    {
-        
-    }
+    //Must have, mutually exclusive
+    public bool _hasMilk;
+    public bool _hasWater;
 
-    // Update is called once per frame
-    void Update()
+    //Must have
+    public bool _hasCocoa;
+    
+    //Optional
+    public bool _hasWhippedCream;
+    public bool _hasMarshmallows;
+
+    public void addIngredient(GameObject ingredient)
     {
-        
+
     }
 }
