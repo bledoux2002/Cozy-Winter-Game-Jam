@@ -29,10 +29,18 @@ public class PlayerController : MonoBehaviour
         float inputMagnitude = Mathf.Clamp01(direction.magnitude);
         direction.Normalize();
 
-        RaycastHit2D hit = Physics2D.Raycast(transform.position, transform.localEulerAngles, 1f);
-        if (hit)
+        if (Input.GetKeyDown(KeyCode.Space))
         {
-            Debug.Log("Hit!");
+            Debug.DrawRay(transform.position, transform.TransformDirection(Vector3.up) * 10f, Color.red);
+            RaycastHit2D hit = Physics2D.Raycast(transform.position, transform.TransformDirection(Vector3.up), 1f, 10);
+            if (hit)
+            {
+                Debug.Log("Grabbed " + hit.collider.name);
+            }
+            else
+            {
+                Debug.Log("No item in range");
+            }
         }
     }
 
