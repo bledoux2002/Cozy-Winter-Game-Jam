@@ -14,7 +14,7 @@ public class PlayerController : MonoBehaviour
 
     Vector3 movement;
     Vector2 direction;
-    GameObject item;
+    GameObject _item;
 
     // Start is called before the first frame update
     void Start()
@@ -36,29 +36,40 @@ public class PlayerController : MonoBehaviour
         if (Input.GetButtonDown("Select"))
         {
             //Debug.DrawRay(transform.position, transform.TransformDirection(Vector3.up) * 1f, Color.red);
-            RaycastHit2D hit = Physics2D.Raycast(transform.position, transform.TransformDirection(Vector3.up), 1f, _grabLayer);
-            if (hit && (item == null))
+            RaycastHit2D hit = Physics2D.Raycast(transform.position, transform.TransformDirection(Vector3.up), 1f, _snapLayer);
+            if (hit)
             {
-                Debug.Log("Grabbed " + hit.collider.name);
-                item = hit.collider.gameObject;
-            }
-            else if (item != null)
-            {
-                RaycastHit2D place = Physics2D.Raycast(transform.position, transform.TransformDirection(Vector3.up), 1f, _snapLayer);
-                if (place)
+                if (_item == null)
                 {
-                    item.transform.position = place.transform.position;
-                    Debug.Log("Dropped " + item.name);
-                    item = null;
+                    if (hit.collider.gameObject.GetComponent<SnapPoint>().item != null)
+                    {
+                        _item = hit.collider.gameObject.GetComponent<SnapPoint>().item;
+                        hit.collider.gameObject.GetComponent<SnapPoint>().item = null;
+                        Debug.Log("Grabbed " + _item.name);
+                    }
+                    else
+                    {
+                        Debug.Log("Snap Point empty");
+                    }
                 }
                 else
                 {
-                    Debug.Log("No place to drop " + item.name);
-                }                
+                    if (hit.collider.gameObject.GetComponent<SnapPoint>().item == null)
+                    {
+                        hit.collider.gameObject.GetComponent<SnapPoint>().item = _item;
+                        _item.transform.position = hit.transform.position;
+                        Debug.Log("Placed " + _item.name);
+                        _item = null;
+                    }
+                    else
+                    {
+                        Debug.Log("Something is already placed there.");
+                    }
+                }
             }
             else
             {
-                Debug.Log("No item in range");
+                Debug.Log("No snap point in range");
             }
         }
     }
@@ -67,9 +78,9 @@ public class PlayerController : MonoBehaviour
     {
         //Movement
         transform.position = transform.position + movement * moveSpeed * Time.fixedDeltaTime;
-        if (item != null)
+        if (_item != null)
         {
-            item.transform.position = transform.position;
+            _item.transform.position = transform.position;
         }
         if (direction != Vector2.zero)
         {
