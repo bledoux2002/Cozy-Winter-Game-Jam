@@ -8,6 +8,8 @@ public class PlayerController : MonoBehaviour
     public float rotateSpeed = 500f;
     
     public Rigidbody2D rb;
+    [SerializeField]
+    private LayerMask _layerMask;
 
     Vector3 movement;
 
@@ -31,8 +33,8 @@ public class PlayerController : MonoBehaviour
 
         //if (Input.GetKeyDown(KeyCode.Space))
         //{
-            Debug.DrawRay(transform.position, transform.TransformDirection(Vector3.up) * 1f, Color.red, 10);
-            RaycastHit2D hit = Physics2D.Raycast(transform.position, transform.TransformDirection(Vector3.up), 1f, 10);
+            Debug.DrawRay(transform.position, transform.TransformDirection(Vector3.up) * 1f, Color.red);
+            RaycastHit2D hit = Physics2D.Raycast(transform.position, transform.TransformDirection(Vector3.up), 1f, _layerMask);
             if (hit)
             {
                 Debug.Log("Grabbed " + hit.collider.name);
