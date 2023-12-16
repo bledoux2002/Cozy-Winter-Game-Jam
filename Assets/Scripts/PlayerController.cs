@@ -45,11 +45,11 @@ public class PlayerController : MonoBehaviour
                         _item = snapItem;
                         hit.collider.gameObject.GetComponent<SnapPoint>().item = null;
                         snapItem = null;
-                        Debug.Log("Grabbed " + _item.name);
+                        //Debug.Log("Grabbed " + _item.name);
                     }
                     else
                     {
-                        Debug.Log("Snap Point empty");
+                        //Debug.Log("Snap Point empty");
                     }
                 }
                 else
@@ -59,12 +59,17 @@ public class PlayerController : MonoBehaviour
                         hit.collider.gameObject.GetComponent<SnapPoint>().item = _item;
                         snapItem = _item;
                         _item.transform.position = hit.transform.position;
-                        Debug.Log("Placed " + _item.name);
+                        if ((hit.collider.gameObject.CompareTag("Guest")) && (_item.CompareTag("Mug")))
+                        {
+                            hit.collider.gameObject.GetComponent<Guest>().checkOrder(snapItem.GetComponent<Mug>().components);
+                            hit.collider.gameObject.GetComponent<SnapPoint>().item.GetComponent<Mug>().emptyCup();
+                        }
+                        //Debug.Log("Placed " + _item.name);
                         _item = null;
                     }
                     else
                     {
-                        Debug.Log("Something is already placed there.");
+                        //Debug.Log("Something is already placed there.");
                         if (snapItem.CompareTag("Mug"))
                         {
                             snapItem.GetComponent<Mug>().addIngredient(_item);
@@ -74,7 +79,7 @@ public class PlayerController : MonoBehaviour
             }
             else
             {
-                Debug.Log("No snap point in range");
+                //Debug.Log("No snap point in range");
             }
         }
     }

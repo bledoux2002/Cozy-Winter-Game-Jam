@@ -4,23 +4,12 @@ using UnityEngine;
 
 public class Mug : MonoBehaviour
 {
-    //Must have, mutually exclusive
-    public bool _hasWater = false;
-    public bool _hasMilk = false;
-
-    //Must have
-    public bool _isHot = false;
-    public bool _hasCocoa = false;
-    public bool _isMixed = false;
-    
-    //Optional
-    public bool _hasWhippedCream = false;
-    public bool _hasMarshmallows = false;
+    public Dictionary<string, bool> components = new Dictionary<string, bool>();
 
     [SerializeField]
     private GameObject _empty;
-    [SerializeField]
-    private GameObject _water;
+    //[SerializeField]
+    //private GameObject _water;
     [SerializeField]
     private GameObject _milk;
     [SerializeField]
@@ -32,93 +21,114 @@ public class Mug : MonoBehaviour
     [SerializeField]
     private GameObject _marshmallow;
 
+    string[] boolNames = { /*"_hasWater",*/ "_hasMilk", /*"_isHot", */"_hasCocoa", /*"_isMixed",*/ "_hasWhippedCream", "_hasMarshmallows" };
+
+    private void Awake()
+    {
+        foreach (string boolName in boolNames)
+        {
+            components.Add(boolName, false);
+        }
+    }
+
     public void addIngredient(GameObject ingredient)
     {
         switch (ingredient.name)
         {
-            case "Water Pot":
+/*            case "Water Pot":
                 if (_cocoa.activeSelf)
                 {
                     _empty.SetActive(false);
                     _cocoa.SetActive(false);
                     _whippedCream.SetActive(false);
                     _mixed.SetActive(true);
-                    _hasWater = true;
-                    _isMixed = true;
-                    _isHot = true;
+                    components["_hasWater"] = true;
+                    components["_isMixed"] = true;
+                    components["_isHot"] = true;
                 }
                 else if (_empty.activeSelf)
                 {
                     _empty.SetActive(false);
                     _water.SetActive(true);
-                    _hasWater = true;
-                    _isHot = true;
+                    components["_hasWater"] = true;
+                    components["_isHot"] = true;
                 }
                 break;
-            case "Milk Pot":
-                if (_cocoa.activeSelf)
+*/            case "Milk Pot":
+ /*               if (_cocoa.activeSelf)
                 {
                     _empty.SetActive(false);
                     _cocoa.SetActive(false);
-                    _whippedCream.SetActive(false);
+ //                   _whippedCream.SetActive(false);
                     _mixed.SetActive(true);
-                    _hasMilk = true;
-                    _isMixed = true;
-                    _isHot = true;
+                    components["_hasMilk"] = true;
+                    components["_isMixed"] = true;
+//                    components["_isHot"] = true;
                 }
                 else if (_empty.activeSelf)
                 {
                     _empty.SetActive(false);
                     _milk.SetActive(true);
-                    _hasMilk = true;
-                    _isHot = true;
+                    components["_hasMilk"] = true;
+//                    components["_isHot"] = true;
+                }*/
+                _empty.SetActive(false);
+                components["_hasMilk"] = true;
+                if (_cocoa.activeSelf)
+                {
+                    _cocoa.SetActive(false);
+                    _mixed.SetActive(true);
+//                    components["_isMixed"] = true;
+                } else
+                {
+                    _milk.SetActive(true);
                 }
                 break;
             case "Cocoa":
                 if (_empty.activeSelf)
                 {
                     _cocoa.SetActive(true);
-                    _hasCocoa = true;
+                    components["_hasCocoa"] = true;
                 }
-                else if (_water.activeSelf || _milk.activeSelf)
+                else if (/*_water.activeSelf ||*/ _milk.activeSelf)
                 {
-                    _water.SetActive(false);
+//                    _water.SetActive(false);
                     _milk.SetActive(false);
                     _mixed.SetActive(true);
-                    _hasCocoa = true;
-                    _isMixed = true;
+                    components["_hasCocoa"] = true;
+//                    components["_isMixed"] = true;
                 }
-                else
+/*                else
                 {
                     _cocoa.SetActive(true);
-                    _isMixed = false;
-                }
+                    components["_isMixed"] = false;
+                }*/
                 break;
             case "Whipped Cream":
                 _whippedCream.SetActive(true);
-                _hasWhippedCream = true;
+                components["_hasWhippedCream"] = true;
                 break;
             case "Marshmallows":
                 _marshmallow.SetActive(true);
-                _hasMarshmallows = true;
+                components["_hasMarshmallows"] = true;
                 break;
-            case "Sink":
+ /*           case "Sink":
                 if (_cocoa.activeSelf)
                 {
                     _empty.SetActive(false);
                     _cocoa.SetActive(false);
                     _whippedCream.SetActive(false);
                     _mixed.SetActive(true);
-                    _hasWater = true;
-                    _isMixed = true;
-                    _isHot = false;
+                    components["_hasWater"] = true;
+                    components["_isMixed"] = true;
+                    components["_isHot"] = false;
                 }
                 else if (_empty.activeSelf)
                 {
                     _empty.SetActive(false);
                     _water.SetActive(true);
-                    _hasWater = true;
-                    _isHot = false;
+                    components["_hasWater"] = true;
+                    components["_isHot"] = false;
                 }
                 break;
             case "Milk":
@@ -128,20 +138,34 @@ public class Mug : MonoBehaviour
                     _cocoa.SetActive(false);
                     _whippedCream.SetActive(false);
                     _mixed.SetActive(true);
-                    _hasMilk = true;
-                    _isMixed = true;
-                    _isHot = false;
+                    components["_hasMilk"] = true;
+                    components["_isMixed"] = true;
+                    components["_isHot"] = false;
                 }
                 else if (_empty.activeSelf)
                 {
                     _empty.SetActive(false);
                     _milk.SetActive(true);
-                    _hasMilk = true;
-                    _isHot = false;
+                    components["_hasMilk"] = true;
+                    components["_isHot"] = false;
                 }
-                break;
+                break;*/
             default:
                 break;
         }
+    }
+    public void emptyCup()
+    {
+        foreach (string boolName in boolNames)
+        {
+            components[boolName] = false;
+        }
+        _empty.SetActive(true);
+//        _water.SetActive(false);
+        _milk.SetActive(false);
+        _cocoa.SetActive(false);
+        _mixed.SetActive(false);
+        _whippedCream.SetActive(false);
+        _marshmallow.SetActive(false);
     }
 }
